@@ -8,6 +8,7 @@ fun String.printMonogram() {
 }
 
 fun List<String>.joinWithSeparator(separator: String): String = joinToString(separator);
+fun List<String>.findLongestString(): String? = maxByOrNull { it.length }
 
 fun task2(){
     println("Task2");
@@ -22,4 +23,11 @@ fun task2(){
     val result = list.joinWithSeparator(separator);
     println("The original list: $list \n The new list: $result")
     println("-------------\n")
+
+    println("The original list: $list")
+    val longest = list.findLongestString()
+    println("Longest: $longest")
+    println("-------------\n")
+
+
 }
