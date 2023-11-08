@@ -19,13 +19,8 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate")
 
         Toast.makeText(this, "Main.onCreate", Toast.LENGTH_LONG).show()
-//
-        val message = intent.getStringExtra("message")
 
-        // Display the data in a TextView (assuming you have a TextView with id 'textView' in activity_main.xml)
-        val textView = findViewById<TextView>(R.id.textView)
-        textView.text = message
-//
+
         val startSplashButton = findViewById<Button>(R.id.startSplashButton)
         startSplashButton.setOnClickListener {
             // Create an Intent to start SplashActivity
