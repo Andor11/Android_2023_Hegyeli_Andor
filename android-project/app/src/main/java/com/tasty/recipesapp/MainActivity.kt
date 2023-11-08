@@ -1,31 +1,32 @@
 package com.tasty.recipesapp
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.Navigation
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
-        private val TAG = MainActivity::class.java.simpleName
-    }
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d(TAG, "onCreate")
 
-        Toast.makeText(this, "Main.onCreate", Toast.LENGTH_LONG).show()
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
-        val startSplashButton = findViewById<Button>(R.id.startSplashButton)
-        startSplashButton.setOnClickListener {
-            // Create an Intent to start SplashActivity
-            val intent = Intent(this, SplashActivity::class.java)
-            startActivity(intent)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> navController.navigate(R.id.homeFragment)
+                R.id.recipesFragment -> navController.navigate(R.id.recipesFragment)
+                R.id.profileFragment -> navController.navigate(R.id.profileFragment)
+            }
+            true
         }
+
     }
 }
