@@ -17,28 +17,25 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivitySplashBinding
-    private val SPLASH_TIME_OUT = 2000
+    private val SPLASH_TIME_OUT:Long = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Initialize Data Binding
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        Toast.makeText(this, "Splash.onCreate", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Splash.onCreate", Toast.LENGTH_LONG).show()
         Log.d(TAG, "onCreate: SplashActivity created.")
 
         val handlerThread = HandlerThread("SplashHandlerThread", -10)
-        handlerThread.start() // Create a Handler on the new HandlerThread
+        handlerThread.start()
         val handler = Handler(handlerThread.looper)
         handler.postDelayed({
-// Navigate to MainActivity after the delay
+
             val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
             finish() },
-            SPLASH_TIME_OUT.toLong()
+            SPLASH_TIME_OUT
         )
     }
 }
