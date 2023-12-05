@@ -54,4 +54,7 @@ dependencies {
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.5")
     implementation ("com.google.code.gson:gson:2.8.9")
 
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
 }

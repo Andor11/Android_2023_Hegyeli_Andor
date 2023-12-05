@@ -1,5 +1,7 @@
 package com.tasty.recipesapp.data.models
 
 data class RecipeModel(
-    val title: String
+    val name: String,
+    val id: Int,
+    val thumbnail_url: String,
 )

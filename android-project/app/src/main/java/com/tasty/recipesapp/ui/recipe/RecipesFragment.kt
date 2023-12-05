@@ -1,23 +1,54 @@
 package com.tasty.recipesapp.ui.recipe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tasty.recipesapp.R
+import com.tasty.recipesapp.RecipeListViewModel
+import com.tasty.recipesapp.data.models.RecipeModel
+import com.tasty.recipesapp.databinding.FragmentRecipesBinding
+import com.tasty.recipesapp.ui.RecipeListAdapter
 
 class RecipesFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding: FragmentRecipesBinding
+    private val viewModel: RecipeListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipes, container, false)
+        binding = FragmentRecipesBinding.inflate(layoutInflater)
+
+        val recipess : Array<RecipeModel> = emptyArray();
+        val myAdapter = RecipeListAdapter(recipess, onItemClick = { recipe ->
+            // Handle item click, navigate to RecipeDetailFragment
+            navigateToRecipeDetail(recipe)
+        })
+
+        binding.recipeList.adapter = myAdapter
+        binding.recipeList.layoutManager = LinearLayoutManager(requireContext())
+
+        viewModel.liveData.observe(viewLifecycleOwner) { recipes ->
+            myAdapter.updateRecipes(recipes)
+        }
+
+        viewModel.readAllRecipeNames(requireContext())
+
+        return binding.root
+    }
+
+    private fun navigateToRecipeDetail(recipe: RecipeModel) {
+        val bundle = Bundle().apply {
+            putInt("recipeId", recipe.id)
+        }
+        findNavController().navigate(R.id.action_recipesFragment_to_recipeDetailFragment, bundle)
     }
 }

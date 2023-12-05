@@ -14,13 +14,29 @@ class RecipeListViewModel: ViewModel() {
 
     val liveData =MutableLiveData<Array<RecipeModel>> ()
 
-    fun readAllRecipes(context: Context){
+    fun readAllRecipeNames(context: Context){
         viewModelScope.launch {
             val list = RecipeRepository(context).readRecipes()
             val models = list.map {
-                RecipeModel(it.name)
+                RecipeModel(it.name, it.id, it.thumbnail_url)
             }
             liveData.value = models.toTypedArray()
         }
     }
+
+    private val _recipeDetail = MutableLiveData<RecipeDTO?>()
+    val recipeDetail: LiveData<RecipeDTO?>
+        get() = _recipeDetail
+
+    fun loadRecipeDetails(context: Context, recipeId: Int) {
+        viewModelScope.launch {
+            // Fetch detailed information for the specified recipeId
+            val recipeDetail = RecipeRepository(context).getRecipeDetails(recipeId)
+
+            // Update the LiveData with the fetched detailed information
+            _recipeDetail.value = recipeDetail
+        }
+    }
+    // Inside your ViewModel class
+
 }

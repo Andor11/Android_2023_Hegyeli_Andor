@@ -25,6 +25,11 @@ class RecipeRepository(val context: Context) {
         } finally {
             file.close()
         }
-
     }
+
+    suspend fun getRecipeDetails(recipeId: Int): RecipeDTO? {
+        val recipes = readRecipes()
+        return recipes.firstOrNull { it.id == recipeId }
+    }
+
 }
