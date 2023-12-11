@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.tasty.recipesapp.ProfileViewModel
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.RecipeListViewModel
 import com.tasty.recipesapp.data.models.RecipeModel
@@ -40,19 +41,14 @@ class ProfileFragment : Fragment() {
             // Load recipes from the Room Database
             val recipes = viewModel.getAllRecipesFromDatabase()
 
-            // Log the size of the recipes list
+//             Log the size of the recipes list
             Log.d("ProfileFragment", "Number of recipes: ${recipes.size}")
 
-            // Randomly select a few recipes (e.g., 3 recipes)
-            val randomRecipes = recipes.shuffled().take(3)
+//             Log the size of the recipes list
+            Log.d("ProfileFragment", "Number of recipes: ${recipes.size}")
 
-            // Log the randomly selected recipes
-            randomRecipes.forEach { recipe ->
-                Log.d("ProfileFragment", "Random Recipe: $recipe")
-            }
-
-            // Update the UI with the randomly selected recipes
-            myAdapter.recipes = randomRecipes.toTypedArray()
+//             Update the UI with the retrieved recipes
+//            myAdapter.recipes = recipes
             myAdapter.notifyDataSetChanged()
 
             binding.fabNewRecipe.setOnClickListener {

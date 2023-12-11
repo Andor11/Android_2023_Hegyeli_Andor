@@ -10,7 +10,7 @@
 
     <!-- Replace this TextView with your actual UI elements for recipe details -->
     <EditText
-        android:id="@+id/editTextRecipeTitle"
+        android:id="@+id/editTextRecipeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Recipe Name"
@@ -19,7 +19,7 @@
         android:textColorHint="@color/white"/>
 
     <EditText
-        android:id="@+id/editTextRecipeIngredients"
+        android:id="@+id/editTextRecipePicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Recipe Picture"

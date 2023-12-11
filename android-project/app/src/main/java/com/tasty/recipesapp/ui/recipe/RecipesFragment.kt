@@ -43,11 +43,6 @@ class RecipesFragment : Fragment() {
 
         viewModel.readAllRecipeNames(requireContext())
 
-//        val fab: FloatingActionButton = view?.findViewById(R.id.fabAddRecipe) ?:
-//        fab.setOnClickListener {
-//            findNavController().navigate(R.id.action_recipesFragment_to_newRecipeFragment)
-//        }
-
         return binding.root
     }
 

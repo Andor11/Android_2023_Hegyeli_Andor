@@ -45,4 +45,6 @@ class ProfileViewModel(private val repository: RecipeRepository) : ViewModel() {
             getAllRecipes()
         }
     }
+
+
 }

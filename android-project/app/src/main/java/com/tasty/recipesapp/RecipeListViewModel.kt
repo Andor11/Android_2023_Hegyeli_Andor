@@ -20,7 +20,7 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
         viewModelScope.launch {
             val list = RecipeRepository(context).readRecipes()
             val models = list.map {
-                RecipeModel(it.name, it.id, it.thumbnail_url)
+                RecipeModel(it.name, it.id, it.thumbnail_url, it.description)
             }
             liveData.value = models.toTypedArray()
         }

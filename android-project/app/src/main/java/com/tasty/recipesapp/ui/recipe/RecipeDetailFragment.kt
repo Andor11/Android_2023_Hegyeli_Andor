@@ -1,11 +1,13 @@
 package com.tasty.recipesapp.ui.recipe
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.tasty.recipesapp.R
@@ -46,6 +48,19 @@ class RecipeDetailFragment : Fragment() {
         // Update UI elements with recipe details (name and image)
         Log.d("KEP", recipe.thumbnail_url);
         binding.recipeName.text = recipe.name
+        binding.descriptionTextView.text = recipe.description
+
+//        val videoView = binding.recipeVideo
+//        val videoUri = Uri.parse(recipe.original_video_url)
+//        videoView.setVideoURI(videoUri)
+//
+//        val mediaController = MediaController(requireContext())
+//        mediaController.setAnchorView(videoView)
+//        videoView.setMediaController(mediaController)
+//
+//        videoView.requestFocus()
+//        videoView.start()
+
         Glide.with(requireContext())
             .load(recipe.thumbnail_url)
             .placeholder(R.drawable.logo) // Add a placeholder drawable if needed
