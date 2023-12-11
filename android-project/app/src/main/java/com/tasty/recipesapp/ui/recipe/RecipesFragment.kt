@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.RecipeListViewModel
 import com.tasty.recipesapp.data.models.RecipeModel
@@ -42,6 +43,11 @@ class RecipesFragment : Fragment() {
 
         viewModel.readAllRecipeNames(requireContext())
 
+//        val fab: FloatingActionButton = view?.findViewById(R.id.fabAddRecipe) ?:
+//        fab.setOnClickListener {
+//            findNavController().navigate(R.id.action_recipesFragment_to_newRecipeFragment)
+//        }
+
         return binding.root
     }
 
@@ -51,4 +57,5 @@ class RecipesFragment : Fragment() {
         }
         findNavController().navigate(R.id.action_recipesFragment_to_recipeDetailFragment, bundle)
     }
+
 }
