@@ -26,13 +26,14 @@ class RecipeRepository(val context: Context) {
         val recipeDatabase = RecipeDatabase.getDatabase(context)
         recipeDao = recipeDatabase.recipeDao()
     }
-    suspend fun readRecipes():Array<RecipeDTO>{
+
+    suspend fun readRecipes(): Array<RecipeDTO> {
         val file = context.resources.openRawResource(R.raw.all_recipes)
         val gson = Gson()
-        val writer:Writer = StringWriter()
+        val writer: Writer = StringWriter()
         val buffer = CharArray(1024)
         try {
-            val reader:Reader = BufferedReader(InputStreamReader(file, "UTF-8"))
+            val reader: Reader = BufferedReader(InputStreamReader(file, "UTF-8"))
             val result = gson.fromJson<RecipeResultDTO>(reader, RecipeResultDTO::class.java)
             return result.results
         } finally {
@@ -46,17 +47,18 @@ class RecipeRepository(val context: Context) {
 
     suspend fun getAllRecipes(): List<RecipeModel> {
         return recipeDao.getAllRecipes().map {
-            val recipeDTO = gson.fromJson(it.json, RecipeDTO::class.java)
-            return@map recipeDTO.toModel()
+            val jsonObject = JSONObject(it.json)
+            jsonObject.apply { put("id", it.internalId) }
+            gson.fromJson(jsonObject.toString(), RecipeDTO::class.java).toModel()
         }
     }
+        suspend fun deleteRecipe(recipe: RecipeEntity) {
+            recipeDao.deleteRecipe(recipe)
+        }
 
-    suspend fun deleteRecipe(recipe: RecipeEntity) {
-        recipeDao.deleteRecipe(recipe)
-    }
+        suspend fun getRecipeDetails(recipeId: Int): RecipeDTO? {
+            val recipes = readRecipes()
+            return recipes.firstOrNull { it.id == recipeId }
+        }
 
-    suspend fun getRecipeDetails(recipeId: Int): RecipeDTO? {
-        val recipes = readRecipes()
-        return recipes.firstOrNull { it.id == recipeId }
-    }
 }

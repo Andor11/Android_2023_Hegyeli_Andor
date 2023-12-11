@@ -37,7 +37,7 @@ class ProfileViewModel(private val repository: RecipeRepository) : ViewModel() {
         }
     }
 
-    // Function to remove a recipe from the Room database
+     //Function to remove a recipe from the Room database
     fun deleteRecipe(recipe: RecipeEntity) {
         viewModelScope.launch {
             repository.deleteRecipe(recipe)
