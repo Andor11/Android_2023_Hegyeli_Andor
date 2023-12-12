@@ -16,15 +16,26 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
     val liveData =MutableLiveData<Array<RecipeModel>> ()
 
-    fun readAllRecipeNames(context: Context){
+    fun readAllRecipeNames(context: Context) {
         viewModelScope.launch {
             val list = RecipeRepository(context).readRecipes()
-            val models = list.map {
-                RecipeModel(it.name, it.id, it.thumbnail_url, it.description)
+            val models = list.map { recipeEntity ->
+                RecipeModel(
+                    name = recipeEntity.name,
+                    id = recipeEntity.id,
+                    thumbnail_url = recipeEntity.thumbnail_url,
+                    description = recipeEntity.description,
+                    instructions = recipeEntity.instructions.map { instructionEntity ->
+                        RecipeModel.Instruction(
+                            display_text = instructionEntity.display_text
+                        )
+                    }
+                )
             }
             liveData.value = models.toTypedArray()
         }
     }
+
 
     private val _recipeDetail = MutableLiveData<RecipeDTO?>()
     val recipeDetail: LiveData<RecipeDTO?>

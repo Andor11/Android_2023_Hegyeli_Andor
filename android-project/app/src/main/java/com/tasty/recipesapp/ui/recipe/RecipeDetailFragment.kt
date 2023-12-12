@@ -1,13 +1,11 @@
 package com.tasty.recipesapp.ui.recipe
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.tasty.recipesapp.R
@@ -50,22 +48,23 @@ class RecipeDetailFragment : Fragment() {
         binding.recipeName.text = recipe.name
         binding.descriptionTextView.text = recipe.description
 
-//        val videoView = binding.recipeVideo
-//        val videoUri = Uri.parse(recipe.original_video_url)
-//        videoView.setVideoURI(videoUri)
-//
-//        val mediaController = MediaController(requireContext())
-//        mediaController.setAnchorView(videoView)
-//        videoView.setMediaController(mediaController)
-//
-//        videoView.requestFocus()
-//        videoView.start()
+        val instructionsText = buildInstructionsText(recipe.instructions)
+        binding.instructionsTextView.text = instructionsText
 
         Glide.with(requireContext())
             .load(recipe.thumbnail_url)
             .placeholder(R.drawable.logo) // Add a placeholder drawable if needed
             .error(R.drawable.error_image) // Add an error drawable if the image fails to load
             .into(binding.recipeImage)
+    }
+    private fun buildInstructionsText(instructions: List<RecipeModel.Instruction>): String {
+        val stringBuilder = StringBuilder()
+
+        for ((index, instruction) in instructions.withIndex()) {
+            stringBuilder.append("${index + 1}. ${instruction.display_text}\n")
+        }
+
+        return stringBuilder.toString().trim()
     }
 }
 
