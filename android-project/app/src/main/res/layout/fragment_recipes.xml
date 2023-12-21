@@ -5,9 +5,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.recipe.RecipesFragment">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Search recipes"
+        android:background="@color/white"/>
+
+    <Button
+        android:id="@+id/btnSortByName"
+        android:layout_width="392dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Sort by Name" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipeList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="160dp"/>
 
 </FrameLayout>

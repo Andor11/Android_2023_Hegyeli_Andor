@@ -17,6 +17,11 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
     val liveData =MutableLiveData<Array<com.tasty.recipesapp.data.models.RecipeModel>> ()
 
+    private val _filteredRecipes = MutableLiveData<Array<RecipeModel>?>()
+    val filteredRecipes: MutableLiveData<Array<RecipeModel>?>
+        get() = _filteredRecipes
+
+
     fun readAllRecipeNames(context: Context) {
         viewModelScope.launch {
             val list = RecipeRepository(context).readRecipes()
@@ -82,4 +87,24 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
             liveData.value = models.toTypedArray()
         }
     }
+
+    fun sortRecipesByName() {
+        val sortedRecipes = liveData.value?.sortedBy { it.name }
+        if (sortedRecipes != null) {
+            liveData.value = sortedRecipes.toTypedArray()
+        }
+    }
+
+    fun searchRecipes(query: String?) {
+        viewModelScope.launch {
+            val allRecipes = liveData.value
+            if (query.isNullOrBlank() || allRecipes.isNullOrEmpty()) {
+                _filteredRecipes.value = allRecipes
+            } else {
+                val filtered = allRecipes.filter { it.name.contains(query, ignoreCase = true) }
+                _filteredRecipes.value = filtered.toTypedArray()
+            }
+        }
+    }
+
 }
