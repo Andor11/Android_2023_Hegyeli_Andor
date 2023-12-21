@@ -10,8 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.tasty.recipesapp.ProfileViewModel
 import com.tasty.recipesapp.R
 import com.tasty.recipesapp.RecipeListViewModel
 import com.tasty.recipesapp.data.models.RecipeModel

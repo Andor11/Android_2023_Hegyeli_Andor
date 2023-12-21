@@ -1,7 +1,5 @@
 package com.tasty.recipesapp.data.models
 
-import java.util.Objects
-
 data class RecipeModel(
     val name: String,
     val id: Int,

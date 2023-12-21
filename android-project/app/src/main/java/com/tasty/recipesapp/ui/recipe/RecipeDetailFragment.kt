@@ -27,6 +27,7 @@ class RecipeDetailFragment : Fragment() {
 
         // Retrieve recipeId from arguments
         val recipeId = arguments?.getInt("recipeId", -1) ?: -1
+        Log.d("recipe id", recipeId.toString())
 
         // Load recipe details based on recipeId
         viewModel.loadRecipeDetails(requireContext(), recipeId)

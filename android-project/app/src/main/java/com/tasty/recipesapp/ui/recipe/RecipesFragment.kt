@@ -30,7 +30,7 @@ class RecipesFragment : Fragment() {
 
         val recipess : Array<RecipeModel> = emptyArray();
         val myAdapter = RecipeListAdapter(recipess, onItemClick = { recipe ->
-            // Handle item click, navigate to RecipeDetailFragment
+            Log.d("Button click", recipe.toString())
             navigateToRecipeDetail(recipe)
         })
 
@@ -41,7 +41,7 @@ class RecipesFragment : Fragment() {
             myAdapter.updateRecipes(recipes)
         }
 
-        viewModel.readAllRecipeNames(requireContext())
+        viewModel.getAllRecipesFromApi()
 
         return binding.root
     }

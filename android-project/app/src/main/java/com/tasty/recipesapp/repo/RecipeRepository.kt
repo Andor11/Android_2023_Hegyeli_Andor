@@ -9,6 +9,7 @@ import com.tasty.recipesapp.data.dto.RecipeDTO
 import com.tasty.recipesapp.data.dto.RecipeResultDTO
 import com.tasty.recipesapp.data.models.RecipeEntity
 import com.tasty.recipesapp.data.models.RecipeModel
+import com.tasty.recipesapp.data.service.RecipeApiClient
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -56,9 +57,29 @@ class RecipeRepository(val context: Context) {
             recipeDao.deleteRecipe(recipe)
         }
 
-        suspend fun getRecipeDetails(recipeId: Int): RecipeDTO? {
-            val recipes = readRecipes()
-            return recipes.firstOrNull { it.id == recipeId }
+    suspend fun getRecipeDetails(recipeId: Int): RecipeDTO? {
+        // API kell, get moreinfo
+        return recipeApiClient.getRecipesDetailsAPI(recipeId)
+    }
+
+    private val recipeApiClient = RecipeApiClient()
+    suspend fun getRecipesFromApi(
+        from: String,
+        size: String,
+        tags: String? = null,
+    ): List<RecipeModel> {
+//...
+//call the suitable method from the api client and
+//return a list of recipeModels
+        val result = recipeApiClient.getRecipesAPI(from, size, tags)
+        val returnList = mutableListOf<RecipeModel>()
+        if (result != null) {
+            result.results.forEach { element ->
+                val elementToAdd =  element.toModel()
+                returnList.add(elementToAdd)
+            }
         }
+        return returnList
+    }
 
 }
