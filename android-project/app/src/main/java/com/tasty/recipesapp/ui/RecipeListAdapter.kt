@@ -3,6 +3,8 @@ package com.tasty.recipesapp.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tasty.recipesapp.R
@@ -10,11 +12,13 @@ import com.tasty.recipesapp.data.models.RecipeModel
 
 class RecipeListAdapter(
     var recipes: Array<RecipeModel>,
-    private val onItemClick: (RecipeModel) -> Unit
+    private val onItemClick: (RecipeModel) -> Unit,
+    private val onFavoriteClick: (Int) -> Unit
 ) : RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.title)
+        val favoriteButton: Button = itemView.findViewById(R.id.favoriteButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,16 +34,17 @@ class RecipeListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentRecipe = recipes[position]
 
-        // Set the recipe name
         holder.title.text = currentRecipe.name
 
-        // Handle item click
         holder.itemView.setOnClickListener {
             onItemClick.invoke(currentRecipe)
         }
+
+        holder.favoriteButton.setOnClickListener {
+            onFavoriteClick.invoke(currentRecipe.id)
+        }
     }
 
-    // Update the list of recipes
     fun updateRecipes(newRecipes: Array<RecipeModel>) {
         recipes = newRecipes
         notifyDataSetChanged()

@@ -21,6 +21,9 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     val filteredRecipes: MutableLiveData<Array<RecipeModel>?>
         get() = _filteredRecipes
 
+    private val _favoriteRecipes = MutableLiveData<List<RecipeModel>>()
+    val favoriteRecipes: LiveData<List<RecipeModel>>
+        get() = _favoriteRecipes
 
     fun readAllRecipeNames(context: Context) {
         viewModelScope.launch {
@@ -49,11 +52,9 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
     fun loadRecipeDetails(context: Context, recipeId: Int) {
         viewModelScope.launch {
-            // Fetch detailed information for the specified recipeId
             val recipeDetail = RecipeRepository(context).getRecipeDetails(recipeId)
             Log.d("recipe Detail", recipeDetail.toString())
 
-            // Update the LiveData with the fetched detailed information
             _recipeDetail.value = recipeDetail
         }
     }
@@ -63,7 +64,6 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     suspend fun getAllRecipesFromDatabase(): List<com.tasty.recipesapp.data.models.RecipeModel> {
         return recipeRepository.getAllRecipes()
     }
-    // Inside your ViewModel class
 
     fun getAllRecipesFromApi() {
         viewModelScope.launch {
@@ -104,6 +104,25 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
                 val filtered = allRecipes.filter { it.name.contains(query, ignoreCase = true) }
                 _filteredRecipes.value = filtered.toTypedArray()
             }
+        }
+    }
+
+    fun toggleFavorite(recipeId: Int) {
+        viewModelScope.launch {
+            val currentRecipes = liveData.value.orEmpty()
+            val updatedRecipes = currentRecipes.map {
+                if (it.id == recipeId) {
+                    it.copy(isFavorite = !it.isFavorite)
+                } else {
+                    it
+                }
+            }
+            liveData.value = updatedRecipes.toTypedArray()
+            _favoriteRecipes.value = updatedRecipes.filter { it.isFavorite }
+
+            Log.d("RecipeListViewModel", "Updated recipes: $updatedRecipes")
+            Log.d("RecipeListViewModel", "Favorite recipes: ${_favoriteRecipes.value}")
+
         }
     }
 

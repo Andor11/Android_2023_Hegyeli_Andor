@@ -29,28 +29,31 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
         val myAdapter = RecipeListAdapter(emptyArray(), onItemClick = { recipe ->
-            // Handle item click, navigate to RecipeDetailFragment
             navigateToRecipeDetail(recipe)
+        }, onFavoriteClick = { recipeId ->
+            viewModel.toggleFavorite(recipeId)
         })
         binding.profileRecipeList.adapter = myAdapter
         binding.profileRecipeList.layoutManager = LinearLayoutManager(requireContext())
 
-        lifecycleScope.launch {
-            // Load recipes from the Room Database
-            val recipes = viewModel.getAllRecipesFromDatabase()
+        viewModel.favoriteRecipes.observe(viewLifecycleOwner) { favoriteRecipes ->
+            Log.d("ProfileFragment", "Number of favorite recipes: ${favoriteRecipes.size}")
 
-//             Log the size of the recipes list
-            Log.d("ProfileFragment", "Number of recipes: ${recipes.size}")
-
-//             Log the size of the recipes list
-            Log.d("ProfileFragment", "Number of recipes: ${recipes.size}")
-
-//             Update the UI with the retrieved recipes
-//            myAdapter.recipes = recipes
+            myAdapter.recipes = favoriteRecipes.toTypedArray()
             myAdapter.notifyDataSetChanged()
+        }
+
+        lifecycleScope.launch {
+            val recipes = viewModel.liveData.value
+
+            Log.d("ProfileFragment", "Number of recipes: ${recipes?.size ?: 0}")
+
+            if (recipes != null) {
+                myAdapter.recipes = recipes
+                myAdapter.notifyDataSetChanged()
+            }
 
             binding.fabNewRecipe.setOnClickListener {
-                // Navigate to NewRecipeFragment
                 findNavController().navigate(R.id.action_profileFragment_to_newRecipeFragment)
             }
         }

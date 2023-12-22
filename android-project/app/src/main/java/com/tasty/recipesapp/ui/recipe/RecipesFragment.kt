@@ -32,29 +32,27 @@ class RecipesFragment : Fragment() {
         searchView = binding.root.findViewById(R.id.searchView)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // Handle the query submit if needed
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Call a function to search and filter the recipes based on the query
                 viewModel.searchRecipes(newText)
                 return true
             }
         })
 
-        // Inside onCreateView method
         val btnSortByName: Button = binding.root.findViewById(R.id.btnSortByName)
         btnSortByName.setOnClickListener {
-            // Call a function to sort the recipes by name
             viewModel.sortRecipesByName()
         }
 
 
         val recipess : Array<RecipeModel> = emptyArray();
         val myAdapter = RecipeListAdapter(recipess, onItemClick = { recipe ->
-            Log.d("Button click", recipe.toString())
+//            Log.d("Button click", recipe.toString())
             navigateToRecipeDetail(recipe)
+        }, onFavoriteClick = { recipeId ->
+            viewModel.toggleFavorite(recipeId)
         })
 
         binding.recipeList.adapter = myAdapter
